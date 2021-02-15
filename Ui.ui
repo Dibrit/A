@@ -39,7 +39,10 @@ class Artem(QWidget):
         self.qt.drawEllipse(*self.coords_, size, size)
 
     def setColor(self):
-        self.qt.setBrush(QColor(25, 51, 0))
+        m = randint(1, 254)
+        n = randint(1, 254)
+        a = randint(1, 254)
+        self.qt.setBrush(QColor(n, m, a))
 
 
 ex = Artem()
