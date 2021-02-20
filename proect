@@ -1,0 +1,585 @@
+import os
+from random import choice, randint, randrange
+import pygame
+
+
+
+#bomb
+#boom
+#flag
+#gameover
+#arrow
+
+def load_image(arrow, color_key=None):
+    n = os.path.join("data", arrow)
+    try:
+        image = pygame.image.load(n).convert()
+    except pygame.error as message:
+        raise SystemExit(message)
+    if color_key is not None:
+        if color_key == -1:
+            color_key = image.get_at((0, 0))
+        image.set_colorkey(color_key)
+    else:
+        image = image.convert_alpha()
+    return image
+
+class Hero(pygame.sprite.Sprite):
+    def __init__(self, args):
+        super().__init__(args)
+        hero_image = load_image("gameover.png", -1)
+        self.image = hero_image
+        self.rect = self.image.get_rect()
+        self.rect.left = -300
+        self.a = 0
+
+    def updategh(self):
+        if self.rect.left == 150:
+            self.a = 1
+        if self.a == 0:
+            self.rect.left += 1
+
+
+class Games:
+    def start(self):
+        self.ghjf = 0
+        self.point = 10
+        self.df()
+
+    def donat(self):
+        print("Сколько очков вы хотите получить?")
+        a = int(input())
+        print("с вашего счёта будет списано-", a * 5, " руб")
+        self.point += a
+        self.c = 0
+        print("у вас на счету +", a, " очков")
+        self.df()
+
+    def zpoint(self):
+        if self.point == 0:
+            print("У вас закончились пойнты вы можете их купить если нажжмёте кнопку 0 или выйти в меню нажав 1")
+        else:
+            print('вы можете купить пойнты нажав 0 или выйтит нажав 1.Cтоймость 1 жетонов 5 руб.')
+        a = input()
+        if a == "0":
+            self.ghj()
+        elif a == "1":
+            self.df()
+
+    def ghj(self):
+        print("ведите карточку и пароль")
+        a = input()
+        if self.ghjf == 1:
+            a = 12345678
+        v = 0
+        for i in range(11):
+            for j in a:
+                if int(j) == i:
+                    v += 1
+        if v == len(a) and len(a) > 7 and len(a) < 14:
+            a = input()
+            v = 0
+            for i in range(10):
+                for j in a:
+                    if i == int(j):
+                        v += 1
+            if v == len(a) and len(a) > 3 and len(a) < 9:
+                print("карточка найдена")
+                self.ghjf = 1
+                self.donat()
+            else:
+                print("Пароль не верный попробуйте сного")
+                self.zpoint()
+        else:
+            print(v)
+            print("карточка не верна попробуйте сного")
+            self.zpoint()
+
+    def egeeg(self):
+        print("1 очко = 3 руб")
+        print("ведите карточку и пароль")
+        a = input()
+        if self.ghjf == 1:
+            a = 12345678
+        v = 0
+        for i in range(11):
+            for j in a:
+                if int(j) == i:
+                    v += 1
+        if v == len(a) and len(a) > 7 and len(a) < 14:
+            a = input()
+            v = 0
+            for i in range(10):
+                for j in a:
+                    if i == int(j):
+                        v += 1
+            if v == len(a) and len(a) > 3 and len(a) < 9:
+                print("карточка найдена")
+                self.ghjf = 1
+                print("Сколько очков вы хотите перевести?Если хотите отказаться ведите 111")
+                s = True
+                while s:
+                    a = int(input())
+                    if a == 111:
+                        self.df()
+                    elif a > self.point:
+                        print("У вас недостаточно очков")
+                    else:
+                        s = False
+                print("Вам переведено-", a * 3, "руб")
+                self.df()
+            else:
+                print("Пароль не верный попробуйте сного")
+                self.zpoint()
+        else:
+            print(v)
+            print("карточка не верна попробуйте сного")
+            self.zpoint()
+
+    def df(self):
+        print(
+            "В какую игру вы хотите сыграть?1 - камень ножницы бумага 2 - сапёр 3 - казино 4 - посмотреть сколько остало очков 5  - если хотите пополнить баланс очков 6 - "
+            "перевести очки в реальные деньги 7 - gif")
+        a = input()
+        if a == "1" or a == "камень ножницы бумага":
+            self.knb()
+        elif a == "2" or a == "сапёр":
+            self.spr()
+        elif a == "3" or a == "казино":
+            a = input()
+            if a == "1":
+                self.keys()
+            if a == "2":
+                self.cas()
+        elif a == "5" or a == "пополнить баланс":
+            self.zpoint()
+        elif a == "4" or a == "посмотреть количество очков":
+            print(self.point)
+            self.df()
+        elif a == "6" or a == "перевести очки в реальные деньги":
+            self.egeeg()
+        elif a == "7" or a == "gif":
+            self.gjbhugw = 0
+            self.df()
+
+    def knb(self):
+        c = 0
+        print("если захотит выйти наберите цифру 4")
+        for i in range(5):
+            d = choice(["камень", "ножницы", "бумага"])
+            s = True
+            while s:
+                c = pygame.Color("white")
+                n = (250, 500)
+                pygame.draw.circle(h, c, n, 50, 0)
+                c = pygame.Color("grey")
+                n = (450, 500)
+                pygame.draw.circle(h, c, n, 50, 0)
+                c = pygame.Color("green")
+                n = (650, 500)
+                pygame.draw.circle(h, c, n, 50, 0)
+                pygame.display.flip()
+                a = input()
+                #for j in pygame.event.get():
+                #    if j.type == pygame.QUIT:
+                #        s = False
+                #    if j.type == pygame.MOUSEBUTTONDOWN:
+                #        for m in range(449, 501):
+                #           for u in range(200, 300):
+                #                if j[1] == m and j[0] == u:
+                #                    a = "бумага"
+                #                    s = False
+                #            for u in range(400, 500):
+                #                if i[1] == m and i[0] == u:
+                #                   a = "камень"
+               #                     s = False
+                #            for u in range(600, 700):
+                #                if i[1] == m and i[0] == u:
+                #                    a = "ножницы"
+                #                    s = False
+            if self.point == 0:
+                self.zpoint()
+            if a == "4":
+                self.df()
+            if a == d:
+                print("Ничья")
+            elif a == "камень" and d == "ножницы":
+                c += 1
+                print("Победа")
+            elif a == "бумага" and d == "камень":
+                print("Победа")
+                c += 1
+            elif a == "ножницы" and d == "бумага":
+                print("Победа")
+                c += 1
+            else:
+                print("проигрыш")
+        if c >= 3:
+            print("Вы выйграли")
+            self.point += 1
+            self.knb()
+        else:
+            print("Вы проиграли")
+            # https://www.youtube.com/watch?v=bN-36Svu2_Y
+            self.point -= 1
+            self.knb()
+
+    def spr(self):
+        print("если захотит выйти наберите цифру 4")
+        self.ljf = 0
+        a = int(input())
+        if a == 4:
+            self.df()
+        elif self.point == 0:
+            self.zpoint()
+        board = Minesweeper(10, 15, 10)
+        s = True
+        if a != 4:
+            while s:
+                for i in pygame.event.get():
+                    if i.type == pygame.QUIT:
+                        s = False
+                    if i.type == pygame.MOUSEBUTTONDOWN:
+                        if i.button == 1:
+                            if pygame.key.get_mods() & pygame.KMOD_CTRL:
+                                hgg = 0
+                                board.get_click(i.pos, hgg)
+                            else:
+                                hgg = 1
+                                board.get_click(i.pos, hgg)
+                board.render(h)
+                pygame.display.flip()
+            pygame.quit()
+
+    def keys(self):
+        print("Cколько кейсов вы хотите купить?1 кейс = 1 очко.Если хотите вернуться в меню наберите 1065")
+        d = int(input())
+        if d == 1065:
+            self.df()
+        if self.point == 0:
+            print("У вас закончились пойнты")
+            self.zpoint()
+        if self.point >= d:
+            self.point -= d
+        elif self.point < d:
+            print("У вас не хватает ", d - self.point)
+            self.keys()
+        for j in range(d):
+            b = randrange(1000)
+            c = 0
+            x = 325
+            y = 325
+            if b == 1:
+                print('вы выйграли 2000 очков')
+                self.point += 2000
+                c += 1
+            for i in range(111, 114):
+                if b == i:
+                    print("вы выйграли 1000")
+                    self.point += 1000
+                    h.blit(1000, (
+                        x * self.s + self.g + 3, y * self.s + self.t + 3))
+                    c += 1
+            for i in range(410, 415):
+                if i == b:
+                    print("Вы выйграли 750")
+                    c += 1
+                    self.point += 750
+                    h.blit(750, (
+                        x * self.s + self.g + 3, y * self.s + self.t + 3))
+            for i in range(80, 106):
+                if b == i:
+                    self.point += 20
+                    h.blit(20, (
+                        x * self.s + self.g + 3, y * self.s + self.t + 3))
+                    c += 1
+                    print("Вы выйграли 20")
+            for i in range(800, 865):
+                if b == i or b == 8:
+                    h.blit(3, (
+                        x * self.s + self.g + 3, y * self.s + self.t + 3))
+                    self.point += 3
+                    c += 1
+                    print("Вы выйграли 3")
+            if c == 0:
+                h.blit(0, (
+                    x * self.s + self.g + 3, y * self.s + self.t + 3))
+                print("Ничего не выпало")
+        self.keys()
+
+    def cas(self):
+        print('ведите сумму на которую вы хотите поставить.Если захотите выйти наберите 172')
+        if self.point <= 0:
+            print("у вас закончились пойнты")
+            self.zpoint()
+        d = int(input())
+        if d > self.point:
+            print("у вас нехватает пойнтов но вы их можете взятьих в кредит набрав 1")
+            a = input()
+            if a == "1":
+                self.point -= d
+            else:
+                self.cas()
+        if self.point >= d:
+            self.point -= d
+        if d == 172:
+            self.df()
+        print("на что ставите?1 - красный 2 белый 3 зелёный(0)")
+        s = True
+        b = 0
+        while s:
+            c = pygame.Color("red")
+            n = (200, 500)
+            pygame.draw.circle(h, c, n, 50, 0)
+            c = pygame.Color("black")
+            n = (400, 500)
+            pygame.draw.circle(h, c, n, 50, 0)
+            c = pygame.Color("green")
+            n = (550, 500)
+            pygame.draw.circle(h, c, n, 50, 0)
+            pygame.display.flip()
+            a = input()
+            if a == "red":
+                c = 2
+            elif a == "green":
+                c = 14
+                b = 101
+            else:
+                c = 3
+            #for i in pygame.event.get():
+            #    if i.type == pygame.QUIT:
+            #        s = False
+            #    if i.type == pygame.MOUSEBUTTONDOWN:
+            #        for j in range(449 , 501):
+            #            for u in range(100, 300):
+            #                if i[1] == j and i[0] == u:
+            #                    c = 2
+            #                    s = False
+            #           for u in range(250, 400):
+            #                if i[1] == j and i[0] == u:
+            #                    c = 3
+            #                   s = False
+            #            for u in range(450, 600):
+            #                if i[1] == j and i[0] == u:
+            #                    c = 14
+            #                    b = 101
+            #                    s = False
+        print('напишите 1 если  не хотите сделать ставку на число')
+        f = int(input())
+        if f == 1:
+            b = 101
+        if b != 101:
+            b = int(input())
+            c += 10
+        f = int(randrange(100))
+        k = 0
+        if f == 0 and c == 14:
+            print("вы выйграли", c * d)
+            self.point += c * d
+            k += 1
+        elif f % 2 == 0 and c == 2:
+            if b == 101 or b == f:
+                print("вы выйграли", c * d)
+                self.point += c * d
+                k += 1
+        elif f % 2 != 0 and c == 1.5:
+            if b == 101 or b == f:
+                print("вы выйграли", c * d)
+                self.point += c * d
+                k += 1
+        if k == 0:
+            print("вы проиграли")
+            p = 0
+            self.point -= 1
+            while p < 100:
+                p += 1
+                n = (150, 150)
+                if f % 2 != 0:
+                    с = pygame.Color("red")
+                elif f % 2 == 0:
+                    с = pygame.Color("white")
+                elif f == 0:
+                    с = pygame.Color("green")
+                pygame.draw.circle(h, c, n, 10, 0)
+                pygame.display.flip()
+                p.tick(50)
+            self.cas()
+
+
+class Board(Games):
+    def __init__(self, t, f):
+        self.t = t
+        self.f = f
+        self.b = [[0] * t for i in range(f)]
+        self.g = 10
+        self.tp = 10
+        self.s = 30
+
+    def render(self, h):
+        for y in range(self.f):
+            for x in range(self.t):
+                pygame.draw.rect(h, pygame.Color(255, 255, 255),
+                                 (x * self.s + self.g, y * self.s + self.tp,
+                                  self.s,
+                                  self.s), 1)
+
+
+
+    def get_cell(self, m):
+        x = (m[0] - self.g) // self.s
+        y = (m[1] - self.t) // self.s
+        if x < 0 or x >= self.t or y < 0 or y >= self.f:
+            return None
+        return x, y
+
+    def get_click(self, m, hgg):
+        self.nm = 0
+        self.hgg = hgg
+        cell = self.get_cell(m)
+        if cell:
+            self.on_click(cell)
+
+
+class Minesweeper(Board, Games):
+    def __init__(self, t, f, n):
+        self.ljf = 0
+        print("выберете размер")
+        a = int(input())
+        if a == 1:
+            self.k = 20
+            t = 10
+            f = 10
+        elif a == 2:
+            self.k = 15
+            t = 15
+            f = 15
+        elif a == 3:
+            t = 20
+            f = 20
+            self.k = 10
+        super().__init__(t, f)
+        self.b = [-1] * f
+        for i in range(f):
+            self.b[i] = [-1] * t
+        i = 0
+        while i < n:
+            x = randint(0, self.t - 1)
+            y = randint(0, self.f - 1)
+            if self.b[y][x] == -1:
+                self.b[y][x] = 10
+                i += 1
+
+    def cl(self, p):
+        x = (p[0] - self.g) // self.s
+        y = (p[1] - self.d) // self.s
+        if x < 0 or x >= self.f or y < 0 or y >= self.t:
+            a = ""
+        else:
+            a = x, y
+        if len(a) > 0:
+            return(a)
+
+    def open_cell(self, cell):
+        x, y = cell
+        nmm = 0
+        if self.b[y][x] == 10:
+            if self.hgg == 1:
+                a = pygame.sprite.Group()
+                g = Hero(a)
+                с = pygame.time.Clock()
+                p = 0
+                while p < 700:
+                    p += 1
+                    for i in pygame.event.get():
+                        if i.type == pygame.QUIT:
+                            p = 200
+                    g.updategh()
+                    h.fill(pygame.Color("black"))
+                    a.draw(h)
+                    pygame.display.flip()
+                    с.tick(200)
+                self.spr()
+                self.ljf = 0
+            elif self.hgg == 0:
+                print("Бомба обезврежена")
+                self.ljf += 1
+                self.k -= 1
+                self.nm = 1
+                nmm = 1
+                print("Дефузов осталось ", self.k)
+        if self.hgg == 0:
+                if self.nm == 0:
+                    print("Там небыло бомбы")
+                    self.nm = 1
+                    self.k -= 1
+                    print("Дефузов осталось ", self.k)
+        if self.ljf == 10:
+            print("вы победили")
+            self.spr()
+        if self.k == 0:
+            a = pygame.sprite.Group()
+            g = Hero(a)
+            с = pygame.time.Clock()
+            s = True
+            while s:
+                for i in pygame.event.get():
+                    if i.type == pygame.QUIT:
+                        s = False
+                g.updategh()
+                h.fill(pygame.Color("black"))
+                a.draw(h)
+                pygame.display.flip()
+                с.tick(200)
+            print("Вы проиграли")
+            self.spr()
+        s = 0
+        for dy in range(-1, 2):
+            for dx in range(-1, 2):
+                if x + dx < 0 or x + dx >= self.t or y + dy < 0 or y + dy >= self.f:
+                    continue
+                if self.b[y + dy][x + dx] == 10:
+                    s += 1
+        if nmm == 0:
+            self.b[y][x] = s
+        elif nmm == 1:
+            self.b[y][x] = 'б'
+        if s == 0:
+            for dy in range(-1, 2):
+                for dx in range(-1, 2):
+                    if x + dx < 0 or x + dx >= self.t or y + dy < 0 or y + dy >= self.f:
+                        continue
+                    if self.b[y + dy][x + dx] == -1:
+                        self.open_cell((x + dx, y + dy))
+
+    def open_board(self):
+        for y in range(self.f):
+            for x in range(self.t):
+                self.open_cell((x, y))
+
+    def on_click(self, c):
+        self.open_cell(c)
+
+    def render(self, g):
+        for y in range(self.f):
+            for x in range(self.t):
+                if self.b[y][x] == "б" or self.b[y][x] >= 0 and self.b[y][x] != 10:
+                    font = pygame.font.Font(None, self.s - 6)
+                    text = font.render(str(self.b[y][x]), 1, (100, 255, 100))
+                    h.blit(text, (
+                        x * self.s + self.g + 3, y * self.s + self.tp + 3))
+
+                pygame.draw.rect(h, pygame.Color(255, 255, 255),
+                                 (x * self.s + self.g, y * self.s + self.tp,
+                                  self.s,
+                                  self.s), 1)
+
+
+pygame.init()
+v = 750, 750
+h = pygame.display.set_mode(v)
+pygame.display.set_caption("Папа сапёра")
+c = pygame.time.Clock()
+h.fill('Black')
+d = Games()
+d.start()
+
