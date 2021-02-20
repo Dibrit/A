@@ -199,6 +199,7 @@ class Games:
                 #                    s = False
             if self.point == 0:
                 self.zpoint()
+            h.fill('Black')
             if a == "4":
                 self.df()
             if a == d:
@@ -366,6 +367,7 @@ class Games:
             #                    s = False
         print('напишите 1 если  не хотите сделать ставку на число')
         f = int(input())
+        h.fill('Black')
         if f == 1:
             b = 101
         if b != 101:
